@@ -123,7 +123,7 @@ public class AutonomoBuildingZone extends LinearOpMode {
                                 }
                             }
 
-                            telemetry.addData("Se detectaron" + skystones + " skystones de " + stones.size() + " stones");
+                            telemetry.addData("Se detectaron " + skystones + " skystones de " + stones.size() + " stones");
                             int index = 0;
                             for(Stone s : stones){
                                 telemetry.addData("Stone " + index + ": isSkystone="+s.isSkystone+" positionX="s.positionX);
@@ -141,7 +141,7 @@ public class AutonomoBuildingZone extends LinearOpMode {
         }
     }
 
-    //inicializamos vuforia
+    //inicializar vuforia
     private void initVuforia() {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
@@ -154,7 +154,7 @@ public class AutonomoBuildingZone extends LinearOpMode {
         //no se necesitan cargar los trackeables
     }
 
-    //Iniciamos el engine de deteccion de objetos de tensorflow
+    //Inicializar el engine de deteccion de objetos de tensorflow
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
             "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
