@@ -101,9 +101,11 @@ public class AutonomoLoadingZone extends LinearOpMode {
                                 if (re.getLabel().equals(LABEL_SKYSTONE)) { // if el objeto reconocido es un skystone
                                     isSkystoneOnView = true;
                                     skystones += 1;
-                                    stones.add(new Stone(true, recognitionx, re.estimateAngleToObject(AngleUnit.DEGREES), re.getHeight() / re.getImageHeight())); // se guarda un objeto 'Stone' en la arraylist con algunas propiedades del recogniton
+                                    double dis = re.getHeight() / re.getImageHeight(); //se calcula una distancia aproximada al skystone dividiendo la altura de esta y de la altura de la imagen.
+                                    stones.add(new Stone(true, recognitionx, re.estimateAngleToObject(AngleUnit.DEGREES), dis)); // se guarda un objeto 'Stone' en la arraylist con algunas propiedades del recogniton
                                 }else if(re.getLabel().equals(LABEL_STONE)) {
-                                    stones.add(new Stone(false, recognitionx, re.estimateAngleToObject(AngleUnit.DEGREES), re.getHeight() / re.getImageHeight())); // se guarda un objeto 'Stone' en la arraylist con algunas propiedades del recogniton
+                                    double dis = re.getHeight() / re.getImageHeight(); //se calcula una distancia aproximada al stone dividiendo la altura de esta y de la altura de la imagen.
+                                    stones.add(new Stone(false, recognitionx, re.estimateAngleToObject(AngleUnit.DEGREES), dis)); // se guarda un objeto 'Stone' en la arraylist con algunas propiedades del recogniton
                                 }
                             }
 
