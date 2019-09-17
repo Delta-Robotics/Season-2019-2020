@@ -29,36 +29,27 @@
 
 package org.firstinspires.ftc.teamcode.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
-import org.firstinspires.ftc.teamcode.SkyStonesPattern;
+import org.firstinspires.ftc.teamcode.Stone;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 import org.firstinspires.ftc.teamcode.Stone;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This 2019-2020 OpMode illustrates the basics of using the TensorFlow Object Detection API to
- * determine the position of the Skystone game elements.
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list.
- *
- * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
- * is explained below.
- */
 @TeleOp(name = "Autonomo Loading Zone", group = "Autonomos")
 public class AutonomoLoadingZone extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
-    private static final String LABEL_FIRST_ELEMENT = "Stone";
-    private static final String LABEL_SECOND_ELEMENT = "Skystone";
+    private static final String LABEL_STONE = "Stone";
+    private static final String LABEL_SKYSTONE = "Skystone";
 
     private static final String VUFORIA_KEY = "AVaXccL/////AAABmWhYLpdtdkCNnE7oGNW1b5SLGGFdd35wQQqtRvw0DgZd01BCX1KCuS1UVy939kq2MrRO9b8yp6KP1IxN42pZEJ6JYAcWmCw2zy8j8ol8REqLV3JpC1nMT8P2pqbUx1Qhss8CPsSsGnFm0Yh3dTh7kH10iXFVZxQVaq81qjuWqHZOz0NaXuW0euYkgernBTqr2AmTWyM1eYsFUsRTU+vpOr60FVLXsZXtoFe46Y1k4NO0pJjC2n0f/jRaGurnpDQzpUU7hZ7g35NPY4yE0rlnooTkuRIaxbXktengDN/L1uF1Vi/SJRRtGq1U3LRlPXVqvL1zVDXAt9a5hCFd3qBYZZhoB/rzO2OOTuX/1Vzakmvv ";
 
@@ -66,10 +57,7 @@ public class AutonomoLoadingZone extends LinearOpMode {
     private VuforiaLocalizer vuforia;
 
     //engine de deteccion de objetos de tensorflow
-    private TFObjectDetector tfod;
-
-    //patron de los skystones
-    SkyStonesPattern skystonespattern;
+    private TFObjectDetector tfod = null;
 
     @Override
     public void runOpMode() {
@@ -94,48 +82,46 @@ public class AutonomoLoadingZone extends LinearOpMode {
         waitForStart();
 
         boolean alreadyFoundSkystonesPattern = false;
-        List<Recognition> lastUpdatedRecognitions = null;
 
-        if (opModeIsActive()) {
+        if (opModeIsActive() && tfod != null) {
             while (opModeIsActive()) {
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
                     List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-                    if(updatedRecognitions != null){
-                        lastUpdatedRecognitions = updatedRecognitions;
-                    }else{
-                        updatedRecognitions = lastUpdatedRecognitions;
-                    }
 
-                        ArrayList stones = new ArrayList();
+                        //arraylist de stones/skystones que se usara mas adelante
+                        ArrayList<Stone> stones = new ArrayList();
                         boolean isSkystoneOnView = false;
-                        int skystones = 0
-                        if (updatedRecognitions.size() > 0) {
-                            for (Recognition re : updatedRecognitions) {
+                        //cantidad de skystones que se detectaran mas adelante
+                        int skystones = 0;
+                        if (updatedRecognitions != null && updatedRecognitions.size() > 0 ) {  //if se detectan mas de 0 recognitions
+                            for (Recognition re : updatedRecognitions) { //por cada recogniton
                                 int recognitionx = (int) re.getLeft(); //obtenemos el x del recognition
-                                if (re.getLabel() == LABEL_SECOND_ELEMENT) {
+                                if (re.getLabel().equals(LABEL_SKYSTONE)) { // if el objeto reconocido es un skystone
                                     isSkystoneOnView = true;
                                     skystones += 1;
-                                    stones.add(new Stone(true, recognitionx));
-                                }else if(re.getLabel() == LABEL_FIRST_ELEMENT) {
-                                    stones.add(new Stone(false, recognitionx));
+                                    stones.add(new Stone(true, recognitionx, re.estimateAngleToObject(AngleUnit.DEGREES), re.getHeight() / re.getImageHeight())); // se guarda un objeto 'Stone' en la arraylist con algunas propiedades del recogniton
+                                }else if(re.getLabel().equals(LABEL_STONE)) {
+                                    stones.add(new Stone(false, recognitionx, re.estimateAngleToObject(AngleUnit.DEGREES), re.getHeight() / re.getImageHeight())); // se guarda un objeto 'Stone' en la arraylist con algunas propiedades del recogniton
                                 }
                             }
 
-                            telemetry.addData("Se detectaron " + skystones + " skystones de " + stones.size() + " stones");
+                            telemetry.addData("Info","Se detectaron " + skystones + " skystones de " + stones.size() + " stones"); //se manda info a la driver station
                             int index = 0;
                             for(Stone s : stones){
-                                telemetry.addData("Stone " + index + ": isSkystone="+s.isSkystone+" positionX="s.positionX);
+                                telemetry.addData("Stone", index + ": isSkystone="+s.isSkystone+" positionX="+ s.positionX + " distance=" + s.distance + " angle=" + s.angle); //se manda info de cada stone detectado a la driver station
                                 index += 1;
                             }
                             telemetry.update();
                         }
 
                 }
+
             }
         }
 
+        //apagamos tensorflow para liberar recursos del sistema
         if (tfod != null) {
             tfod.shutdown();
         }
@@ -150,8 +136,6 @@ public class AutonomoLoadingZone extends LinearOpMode {
 
         //creamos una instancia de Vuforia y la guardamos en una variable
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
-
-        //no se necesitan cargar los trackeables
     }
 
     //Inicializar el engine de deteccion de objetos de tensorflow
@@ -161,6 +145,6 @@ public class AutonomoLoadingZone extends LinearOpMode {
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
-        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_STONE, LABEL_SKYSTONE);
     }
 }
