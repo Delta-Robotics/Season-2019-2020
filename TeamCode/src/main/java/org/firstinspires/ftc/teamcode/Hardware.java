@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-//hardware de un robot con omniwheels, se debera cambiar en el futuro dependiendo de el caso.
+//hardware de un robot con 4 llantas, se debera cambiar/añadir cosas en el futuro dependiendo de el caso.
 public class Hardware {
 
     //Constructor
