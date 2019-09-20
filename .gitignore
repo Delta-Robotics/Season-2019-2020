@@ -24,6 +24,5 @@ Thumbs.db
 .gradle
 build/
 
-
 *.vuforiakey
 
