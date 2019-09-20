@@ -68,7 +68,7 @@ public class AutonomoLoadingZone extends LinearOpMode {
             initTfod();
         } else {
             //si el dispositivo no es compatible con tensorflow lite, se manda un mensaje a la driver station.
-            telemetry.addData("Sebas", "Ow! Este dispositivo no es compatible con TensorFlow Lite!");
+            telemetry.addData(">", "Cuidado! Este dispositivo no es compatible con TensorFlow Lite!");
         }
 
         //activamos la camara de deteccion de objetos antes de que empieze el opmode
@@ -77,7 +77,7 @@ public class AutonomoLoadingZone extends LinearOpMode {
         }
 
         //esperar a que se presione play en la driver station
-        telemetry.addData("Sebas", "Dale a play para que empieze lo bueno.");
+        telemetry.addData("Sebas", "Dale a play para que empiece lo bueno.");
         telemetry.update();
         waitForStart();
 
