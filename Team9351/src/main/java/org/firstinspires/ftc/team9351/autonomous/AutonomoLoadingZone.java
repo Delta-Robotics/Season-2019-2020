@@ -66,12 +66,11 @@ public class AutonomoLoadingZone extends LinearOpMode {
     private TFObjectDetector tfod = null;
 
     public String getVuforiaKey() throws IOException{
-        InputStream vuforiaKeyStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/firstinspires/ftc/team9351/.vuforiakey");
-        String vKey;
+        InputStream vuforiaKeyResourceStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/firstinspires/ftc/team9351/.vuforiakey");
 
         StringBuilder sb = new StringBuilder();
 
-        Reader reader = new BufferedReader(new InputStreamReader(vuforiaKeyStream, Charset.forName(StandardCharsets.UTF_8.name())));
+        Reader reader = new BufferedReader(new InputStreamReader(vuforiaKeyResourceStream, Charset.forName(StandardCharsets.UTF_8.name())));
         int count = 0;
         while((count = reader.read()) != -1){
             sb.append((char) count);
@@ -95,7 +94,7 @@ public class AutonomoLoadingZone extends LinearOpMode {
             initTfod();
         } else {
             //si el dispositivo no es compatible con tensorflow lite, se manda un mensaje a la driver station.
-            telemetry.addData(">", "Cuidado! Este dispositivo no es compatible con TensorFlow Lite!");
+            telemetry.addData(">", "Ow! Este dispositivo no es compatible con TensorFlow Lite!");
         }
 
         //activamos la camara de deteccion de objetos antes de que empieze el opmode
@@ -176,4 +175,6 @@ public class AutonomoLoadingZone extends LinearOpMode {
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_STONE, LABEL_SKYSTONE);
     }
+
+
 }

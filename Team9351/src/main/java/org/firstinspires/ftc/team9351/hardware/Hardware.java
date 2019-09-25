@@ -65,11 +65,11 @@ public class Hardware {
         servoFoundationLeft.setPosition(0);
         servoFoundationRight.setPosition(0);
 
-        //todos los motores que correran sin encoders
-        wheelUpRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        wheelUpLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        wheelDownRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        wheelDownLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        //todos los motores que correran con encoders
+        wheelUpRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelUpLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelDownRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        wheelDownLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
 }
