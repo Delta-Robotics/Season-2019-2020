@@ -39,6 +39,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.team9351.Stone;
+import org.firstinspires.ftc.team9351.VuforiaKey;
+
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import java.io.BufferedReader;
@@ -57,35 +59,14 @@ public class AutonomoLoadingZone extends LinearOpMode {
     private static final String LABEL_STONE = "Stone";
     private static final String LABEL_SKYSTONE = "Skystone";
 
-    private static String VUFORIA_KEY = null;
-
     //engine localizador de vuforia
     private VuforiaLocalizer vuforia;
 
     //engine de deteccion de objetos de tensorflow
     private TFObjectDetector tfod = null;
 
-    public String getVuforiaKey() throws IOException{
-        InputStream vuforiaKeyResourceStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("org/firstinspires/ftc/team9351/.vuforiakey");
-
-        StringBuilder sb = new StringBuilder();
-
-        Reader reader = new BufferedReader(new InputStreamReader(vuforiaKeyResourceStream, Charset.forName(StandardCharsets.UTF_8.name())));
-        int count = 0;
-        while((count = reader.read()) != -1){
-            sb.append((char) count);
-        }
-
-        return sb.toString();
-    }
-
     @Override
     public void runOpMode() {
-        try {
-            VUFORIA_KEY = getVuforiaKey();
-        }catch (IOException ex){
-            ex.printStackTrace();
-        }
 
         // tensorflow usa la camara de vuforia, asi que hacemos esto primero
         initVuforia();
@@ -135,7 +116,6 @@ public class AutonomoLoadingZone extends LinearOpMode {
                                 }
                             }
 
-                            telemetry.addData("Info","Se detectaron " + skystones + " skystones de " + stones.size() + " stones"); //se manda info a la driver station
                             int index = 0;
                             for(Stone s : stones){
                                 telemetry.addData("Stone", index + ": isSkystone="+s.isSkystone+" positionX="+ s.positionX + " distance=" + s.distance + " angle=" + s.angle); //se manda info de cada stone detectado a la driver station
@@ -159,7 +139,7 @@ public class AutonomoLoadingZone extends LinearOpMode {
     private void initVuforia() {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
-        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.vuforiaLicenseKey = VuforiaKey.key;
         parameters.cameraDirection = CameraDirection.BACK;
 
         //creamos una instancia de Vuforia y la guardamos en una variable
