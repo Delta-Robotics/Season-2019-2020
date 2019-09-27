@@ -61,7 +61,7 @@ public class TeleOp extends LinearOpMode { //la clase extendera a otra llamada '
         //de velocidad. el fin de esto es para que el arrastrar la foundation en el endgame no sea
         //tan arriesgado y haya menos probabilidad de que tiremos cualquier stone
         if (gamepad1.left_trigger > 0 || gamepad1.right_trigger > 0) {
-            mecanumWheels.joystick(gamepad1, 0);
+            mecanumWheels.joystick(gamepad1, 0.5);
         } else {
             mecanumWheels.joystick(gamepad1, 1);
         }
