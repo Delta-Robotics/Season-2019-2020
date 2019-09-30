@@ -72,4 +72,12 @@ public class Hardware {
         wheelDownLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public void servoFoundationUp(){
+
+    }
+
+    public void servoFoundationDown(){
+
+    }
+
 }

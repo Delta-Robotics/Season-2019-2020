@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.team9351.hardware;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class MecanumWheels {
+public class MecanumWheelsAutonomous {
 
     //based on this image: https://i.imgur.com/R82YOwT.png
 
@@ -12,23 +13,16 @@ public class MecanumWheels {
     public double wheelDownRightPower = 0;
     public double wheelDownLeftPower = 0;
 
-    public MecanumWheels(){ }
+    public Hardware hdw;
 
-    public void joystick(Gamepad gamepad1, double speed){
-        double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
-        double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
-        double rightX = gamepad1.right_stick_x;
-        wheelUpRightPower = (r * Math.cos(robotAngle) + rightX) / speed;
-        wheelUpLeftPower = (r * Math.sin(robotAngle) - rightX) / speed;
-        wheelDownRightPower = (r * Math.sin(robotAngle) + rightX) / speed;
-        wheelDownLeftPower = (r * Math.cos(robotAngle) - rightX) / speed;
-    }
+    public MecanumWheelsAutonomous(Hardware hdwMap){ this.hdw = hdw; }
 
     public void forward(double speed){
         wheelUpRightPower = 1 / speed;
         wheelUpLeftPower = 1 / speed;
         wheelDownRightPower = 1 / speed;
         wheelDownLeftPower = 1 / speed;
+        setAllMotorPower();
     }
 
     public void backwards(double speed){
@@ -36,6 +30,7 @@ public class MecanumWheels {
         wheelUpLeftPower = -1 / speed;
         wheelDownRightPower = -1 / speed;
         wheelDownLeftPower = -1 / speed;
+        setAllMotorPower();
     }
 
     public void strafeRight(double speed){
@@ -43,6 +38,7 @@ public class MecanumWheels {
         wheelUpLeftPower = 1 / speed;
         wheelDownRightPower = 1 / speed;
         wheelDownLeftPower = -1 / speed;
+        setAllMotorPower();
     }
 
     public void strafeLeft(double speed){
@@ -50,6 +46,7 @@ public class MecanumWheels {
         wheelUpLeftPower = -1 / speed;
         wheelDownRightPower = -1 / speed;
         wheelDownLeftPower = 1 / speed;
+        setAllMotorPower();
     }
 
     public void turnRight(double speed){
@@ -57,6 +54,7 @@ public class MecanumWheels {
         wheelUpLeftPower = 1 / speed;
         wheelDownRightPower = -1 / speed;
         wheelDownLeftPower = 1 / speed;
+        setAllMotorPower();
     }
 
     public void turnLeft(double speed){
@@ -64,6 +62,7 @@ public class MecanumWheels {
         wheelUpLeftPower = -1 / speed;
         wheelDownRightPower = 1 / speed;
         wheelDownLeftPower = -1 / speed;
+        setAllMotorPower();
     }
 
     public void tiltRight(double speed){
@@ -71,6 +70,7 @@ public class MecanumWheels {
         wheelUpRightPower = 0;
         wheelDownRightPower = 1 / speed;
         wheelDownLeftPower = 0;
+        setAllMotorPower();
     }
 
     public void tiltLeft(double speed){
@@ -78,6 +78,7 @@ public class MecanumWheels {
         wheelDownRightPower = 0;
         wheelUpRightPower = 1 / speed;
         wheelUpLeftPower = 0;
+        setAllMotorPower();
     }
 
     public void stop(){
@@ -85,5 +86,13 @@ public class MecanumWheels {
         wheelDownRightPower = 0;
         wheelUpRightPower = 0;
         wheelUpLeftPower = 0;
+        setAllMotorPower();
+    }
+
+    public void setAllMotorPower(){
+        hdw.wheelDownLeft.setPower(wheelDownLeftPower);
+        hdw.wheelDownRight.setPower(wheelDownRightPower);
+        hdw.wheelUpLeft.setPower(wheelUpLeftPower);
+        hdw.wheelUpRight.setPower(wheelUpRightPower);
     }
 }

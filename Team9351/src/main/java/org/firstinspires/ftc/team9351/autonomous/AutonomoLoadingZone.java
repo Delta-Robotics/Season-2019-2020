@@ -40,6 +40,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.team9351.Stone;
 import org.firstinspires.ftc.team9351.VuforiaKey;
+import org.firstinspires.ftc.team9351.hardware.Hardware;
+import org.firstinspires.ftc.team9351.hardware.MecanumWheels;
 
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
@@ -59,6 +61,11 @@ public class AutonomoLoadingZone extends LinearOpMode {
     private static final String LABEL_STONE = "Stone";
     private static final String LABEL_SKYSTONE = "Skystone";
 
+    //objeto que contiene el hardware del robot
+    Hardware hdw;
+
+    MecanumWheels mecanumWheels;
+
     //engine localizador de vuforia
     private VuforiaLocalizer vuforia;
 
@@ -67,6 +74,10 @@ public class AutonomoLoadingZone extends LinearOpMode {
 
     @Override
     public void runOpMode() {
+
+        hdw = new Hardware(hardwareMap); //init hardware
+
+        mecanumWheels = new MecanumWheels();
 
         // tensorflow usa la camara de vuforia, asi que hacemos esto primero
         initVuforia();
