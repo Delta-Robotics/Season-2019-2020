@@ -37,6 +37,7 @@ public class AutonomoBuildingZone extends LinearOpMode { //la clase extendera a 
         sleep(1000);
         mecanumWheels.backwards(1);
         sleep(4000);
+        hdw.stop();
         hdw.servoFoundationUp();
         sleep(1000);
         mecanumWheels.strafeRight(1);
