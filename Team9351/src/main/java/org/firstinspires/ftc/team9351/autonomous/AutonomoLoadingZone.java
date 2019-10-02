@@ -99,8 +99,6 @@ public class AutonomoLoadingZone extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
-        boolean alreadyFoundSkystonesPattern = false;
-
         if (opModeIsActive() && tfod != null) {
             while (opModeIsActive()) {
                 if (tfod != null) {

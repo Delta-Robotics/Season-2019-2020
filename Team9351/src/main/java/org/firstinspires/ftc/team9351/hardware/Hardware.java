@@ -22,9 +22,14 @@ public class Hardware {
     public DcMotor wheelDownRight = null;
     public DcMotor wheelDownLeft = null;
 
+    //otros motores
+    public DcMotor motorArtiClaw = null;
+    public DcMotor motorLift = null;
+
     //servos
     public Servo servoFoundationLeft = null;
     public Servo servoFoundationRight = null;
+    public Servo servoClaw = null;
 
     //sensores
     //public ColorSensor colorSensor = null; (ejemplo)
@@ -40,8 +45,10 @@ public class Hardware {
         wheelDownLeft = hwMap.get(DcMotor.class, "wheelDownLeft");
         servoFoundationLeft = hwMap.get(Servo.class, "servoFoundationLeft");
         servoFoundationRight = hwMap.get(Servo.class, "servoFoundationRight");
+        servoClaw = hwMap.get(Servo.class, "servoClaw");
+        motorArtiClaw = hwMap.get(DcMotor.class, "motorArtiClaw");
+        motorLift = hwMap.get(DcMotor.class, "motorLift");
 
-        //esta parte debera ser cambiada dependiendo de si se usaran omniwheels o mecanum
         //La direccion por default de estos motores/servos sera FORWARD
         wheelUpRight.setDirection(DcMotor.Direction.FORWARD);
         wheelDownRight.setDirection(DcMotor.Direction.FORWARD);
@@ -60,10 +67,14 @@ public class Hardware {
         wheelDownRight.setPower(0);
         wheelUpLeft.setPower(0);
         wheelDownLeft.setPower(0);
+        motorArtiClaw.setPower(0);
+        motorLift.setPower(0);
 
-        //la posicion default de todos los servos se define a 0 degrees
+        //se define la posicion y direccion por default de estos servos
         servoFoundationLeft.setPosition(0);
+        servoFoundationLeft.setDirection(Servo.Direction.FORWARD);
         servoFoundationRight.setPosition(0);
+        servoFoundationRight.setDirection(Servo.Direction.FORWARD);
 
         //todos los motores que correran con encoders
         wheelUpRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -73,11 +84,11 @@ public class Hardware {
     }
 
     public void servoFoundationUp(){
-
+        //por calcular
     }
 
     public void servoFoundationDown(){
-
+        //por calcular
     }
 
 }
