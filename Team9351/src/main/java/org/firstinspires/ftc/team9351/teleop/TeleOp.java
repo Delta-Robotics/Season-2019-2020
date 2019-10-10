@@ -73,32 +73,32 @@ public class TeleOp extends LinearOpMode { //la clase extendera a otra llamada '
         //servos con perfil que agarraran la foundation para arrastrarla
         //esto es temporal para calcular los grados en los que el servo esta arriba y abajo
         if(gamepad1.dpad_up){
-            hdw.servoFoundationRight.setPosition(hdw.servoFoundationRight.getPosition() + 0.0005);
-            hdw.servoFoundationRight.setDirection(Servo.Direction.REVERSE);
-            hdw.servoFoundationLeft.setPosition(hdw.servoFoundationLeft.getPosition() + 0.0005);
-            hdw.servoFoundationLeft.setDirection(Servo.Direction.FORWARD);
+            hdw.servoFoundationRight.setPosition(0);
+            
+            hdw.servoFoundationLeft.setPosition(1);
+            
         }else if(gamepad1.dpad_down){
-            hdw.servoFoundationRight.setPosition(hdw.servoFoundationRight.getPosition() + 0.0005);
-            hdw.servoFoundationRight.setDirection(Servo.Direction.FORWARD);
-            hdw.servoFoundationLeft.setPosition(hdw.servoFoundationLeft.getPosition() + 0.0005);
-            hdw.servoFoundationLeft.setDirection(Servo.Direction.REVERSE);
+            hdw.servoFoundationRight.setPosition(1);
+        
+          
+            hdw.servoFoundationLeft.setDirection(0);
         }
     }
 
     public void startB() {
         //servo de la garra
         if (gamepad2.a) {
-            hdw.servoClaw.setPosition(hdw.servoClaw.getPosition() + 0.1);
-            hdw.servoClaw.setDirection(Servo.Direction.FORWARD);
+            hdw.servoClaw.setPosition(1);
+          
         } else if (gamepad2.b) {
-            hdw.servoClaw.setPosition(hdw.servoClaw.getPosition() + 0.1);
-            hdw.servoClaw.setDirection(Servo.Direction.REVERSE);
+            hdw.servoClaw.setPosition(0);
+            
         }
 
         //articulacion de la garra
-        if (gamepad2.left_bumper) {
+        if (gamepad2.x) {
             hdw.motorArtiClaw.setPower(-1);
-        } else if (gamepad2.right_bumper) {
+        } else if (gamepad2.y) {
             hdw.motorArtiClaw.setPower(1);
         } else {
             hdw.motorArtiClaw.setPower(0);
