@@ -75,13 +75,13 @@ public class TeleOp extends LinearOpMode { //la clase extendera a otra llamada '
         if(gamepad1.dpad_up){
             hdw.servoFoundationRight.setPosition(0);
             
-            hdw.servoFoundationLeft.setPosition(1);
+            hdw.servoFoundationLeft.setPosition(0);
             
         }else if(gamepad1.dpad_down){
             hdw.servoFoundationRight.setPosition(1);
         
           
-            hdw.servoFoundationLeft.setDirection(0);
+            hdw.servoFoundationLeft.setDirection(1);
         }
     }
 
